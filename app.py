@@ -17,7 +17,7 @@ from werkzeug.utils import secure_filename
 
 # parametros de inicializacion
 app = Flask(__name__)
-app.config.from_file('config.json', json.load)
+# app.config.secret_key = ""
 srp = sirope.Sirope()
 
 # Parametros de configuracion para los archivos
