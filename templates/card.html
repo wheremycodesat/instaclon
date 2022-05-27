@@ -1,0 +1,37 @@
+{% block card %}
+<div class="card">
+  <div class="user-spot">
+    <img
+      src="{{url_for('static', filename='/fotos_perfil/'+ g.user.imagen_perfil) if g.user else ''}}"
+      alt="imagen perfil"
+    />
+
+    <div class="user-spot__info">
+      <span class="instauser">{{g.user.username}}</span>
+      <span>{{g.user.alias}}</span>
+    </div>
+  </div>
+
+  <div class="suggestions">
+    <div class="suggestions__header">
+      <p class="suggestions__header__title">Recomendaciones para ti</p>
+    </div>
+
+    <ul class="suggestions-list">
+      {%for usuario in usuarios_recomendados%}
+      <li class="suggestions-list__li">
+        <img
+          src="{{url_for('static', filename='/fotos_perfil/' + usuario.imagen_perfil)}}"
+          alt=""
+        />
+        <a href="/profile/{{usuario.username}}">{{usuario.username}}</a>
+      </li>
+      {%endfor%}
+    </ul>
+  </div>
+
+  <footer class="footer">
+    {% include "footer.html" %} {% block footer %} {% endblock %}
+  </footer>
+</div>
+{% endblock %}

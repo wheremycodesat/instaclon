@@ -1,0 +1,17 @@
+{% extends "base.html"%}
+<!-- HTML head -->
+{% block head%} {{ super() }}{% endblock %}
+<!--  navegacion -->
+{% include "navigation.html"%} {% block nav%} {{ super() }}{% endblock%}
+<!-- contenido principal  -->
+{% block content%}
+<div class="home">
+  <div class="timeline">
+    <!-- timeline -->
+    {%include "timeline.html"%} {% block timeline %} {% endblock %}
+  </div>
+  <!-- card -->
+  <div>{%include "card.html"%} {% block card %} {% endblock %}</div>
+</div>
+<!-- fin contenido -->
+{%endblock%}

@@ -1,0 +1,24 @@
+{%block change_pic%}
+<div class="change-prof-pic--bg no-display">
+  <div class="change-prof-pic--body">
+    <div class="change-prof-pic--heading">
+      <h3>Cambiar foto de perfil</h3>
+    </div>
+    <div class="change-prof-pic--content">
+      <form
+        action="/edit-profile-pic"
+        method="POST"
+        class="change-prof-form no-display"
+        enctype="multipart/form-data"
+      >
+        <input type="file" name="new-prof" class="new-prof-input" hidden />
+      </form>
+      <p class="upload-new-prof">Subir una foto</p>
+      <p class="remove-current-photo">Borrar foto actual</p>
+      <p class="cancel-upload-prof">Cancelar</p>
+    </div>
+  </div>
+</div>
+{%endblock%}
+
+<!-- width 400px height 222px -->

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% block head %}
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      href="{{url_for('static', filename='logo/favicon.png')}}"
+    />
+    <title>Instaclon</title>
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/app.css')}}"
+    />
+    {% endblock %}
+  </head>
+  <body>
+    <div class="content">{%block content %}{% endblock %}</div>
+    <!-- modal para anadir posts -->
+    {% include "addpost_modal.html"%} {% block addpost %} {%endblock%}
+
+    <!-- JS -->
+    <script src="{{url_for('static', filename='js/bundle.min.js')}}"></script>
+
+    <!-- footer -->
+    {% if login or profile or notifications or signup %}
+    <footer class="footer {{'login-margin' if login else ''}}">
+      {% extends"footer.html" %} {% block footer %} {{ super() }} {% endblock %}
+    </footer>
+    {% endif %}
+  </body>
+</html>

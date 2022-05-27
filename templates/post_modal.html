@@ -1,0 +1,402 @@
+{% block postmodal %}
+<!-- loop -->
+{%if user_posts%} {%for post in user_posts%}
+<div class="post-modal-div post-modal--bg no-display">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="close-modal icon icon-tabler icon-tabler-x"
+    width="52"
+    height="52"
+    viewBox="0 0 24 24"
+    stroke-width="1.5"
+    stroke="#ffffff"
+    fill="none"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    data-index="{{loop.index0}}"
+  >
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <line x1="18" y1="6" x2="6" y2="18" />
+    <line x1="6" y1="6" x2="18" y2="18" />
+  </svg>
+  <div class="post-modal">
+    <div class="post-modal--body">
+      <div class="post-image-area">
+        <img
+          src="{{url_for('static', filename='imagenes/' + post.imagen)}}"
+          alt=""
+        />
+      </div>
+
+      <div class="post-info">
+        <div class="post-info__header">
+          <div class="post-info__header--user">
+            <img
+              src="{{url_for('static', filename='/fotos_perfil/'+ g.user.imagen_perfil) if own_profile else url_for('static', filename='/fotos_perfil/'+ user.imagen_perfil)}}"
+              alt=""
+            />
+            {%if own_profile%}
+            <p>{{g.user.username}}</p>
+            {%else%}
+            <p>{{user.username}}</p>
+            {%endif%}
+          </div>
+
+          {%if own_profile%}
+          <div class="delete-post">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="delete-post-icon icon icon-tabler icon-tabler-dots"
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="#000000"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              data-index="{{loop.index0}}"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <circle cx="5" cy="12" r="1" />
+              <circle cx="12" cy="12" r="1" />
+              <circle cx="19" cy="12" r="1" />
+            </svg>
+
+            <div class="delete-post-dropdown no-display">
+              <form
+                method="POST"
+                enctype="multipart/form-data"
+                class="delete-post-form"
+                action="/delete-post?num={{post.__oid__.num}}"
+              >
+                <p class="remove-post">Borrar post</p>
+              </form>
+            </div>
+          </div>
+          {%endif%}
+        </div>
+        <div class="post-info__comments">
+          {%if post.caption%}
+          <div class="caption-container">
+            <img
+              src="{{url_for('static', filename='/fotos_perfil/'+ post.usuario + '_prof.jpg')}}"
+              alt=""
+            />
+            <p class="caption-username">{{post.usuario}}</p>
+            <p>{{post.caption}}</p>
+          </div>
+          {%endif%}
+
+          <div class="comments">
+            {% for comentario in post.comentarios %}
+            <div class="comment">
+              <img
+                src="{{url_for('static', filename='/fotos_perfil/'+ comentario.usuario +
+                '_prof.jpg')}}"
+                alt=""
+              />
+              <p class="comment-username">{{comentario.usuario}}</p>
+              <p>{{comentario.texto}}</p>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="post-info__management">
+          <div class="post-info__management__likes">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="like-icon icon icon-tabler icon-tabler-heart {{'liked' if g.user.username in post.liked_by else ''}}"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              stroke-width="0.8"
+              stroke="#000000"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              data-oid="{{post.__oid__.num}}"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M19.5 13.572l-7.5 7.428l-7.5 -7.428m0 0a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"
+              />
+            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="comment-icon icon icon-tabler icon-tabler-message-circle"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              stroke-width="0.8"
+              stroke="#000000"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M3 20l1.3 -3.9a9 8 0 1 1 3.4 2.9l-4.7 1" />
+            </svg>
+          </div>
+          <div class="post-info__management__likedby">
+            Le ha gustado a {%for user in post.liked_by%} {{user}}, {%endfor%}
+          </div>
+          <form
+            action="/add-comment?number={{post.__oid__.num}}"
+            method="POST"
+            class="post-info__management__cform"
+          >
+            <textarea
+              name="comentario"
+              placeholder="Añade un comentario..."
+            ></textarea>
+            <input class="submit-comment-btn" type="submit" value="Postear" />
+          </form>
+        </div>
+      </div>
+
+      <div></div>
+    </div>
+  </div>
+</div>
+{%endfor%} {%elif liked_posts%} {%for post in liked_posts%}
+<div class="post-modal-div post-modal--bg no-display">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="close-modal icon icon-tabler icon-tabler-x"
+    width="52"
+    height="52"
+    viewBox="0 0 24 24"
+    stroke-width="1.5"
+    stroke="#ffffff"
+    fill="none"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    data-index="{{loop.index0}}"
+  >
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <line x1="18" y1="6" x2="6" y2="18" />
+    <line x1="6" y1="6" x2="18" y2="18" />
+  </svg>
+  <div class="post-modal">
+    <div class="post-modal--body">
+      <div class="post-image-area">
+        <img
+          src="{{url_for('static', filename='imagenes/' + post.imagen)}}"
+          alt=""
+        />
+      </div>
+
+      <div class="post-info">
+        <div class="post-info__header">
+          <img
+            src="{{url_for('static', filename='/fotos_perfil/'+ post.usuario + '_prof.jpg')}}"
+            alt=""
+          />
+          <p>{{post.usuario}}</p>
+        </div>
+        <div class="post-info__comments">
+          {%if post.caption%}
+          <div class="caption-container">
+            <img
+              src="{{url_for('static', filename='/fotos_perfil/'+ post.usuario + '_prof.jpg')}}"
+              alt=""
+            />
+            <p class="caption-username">{{post.usuario}}</p>
+            <p>{{post.caption}}</p>
+          </div>
+          {%endif%}
+
+          <div class="comments">
+            {% for comentario in post.comentarios %}
+            <div class="comment">
+              <img
+                src="{{url_for('static', filename='/fotos_perfil/'+ comentario.usuario +
+                '_prof.jpg')}}"
+                alt=""
+              />
+              <p class="comment-username">{{comentario.usuario}}</p>
+              <p>{{comentario.texto}}</p>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="post-info__management">
+          <div class="post-info__management__likes">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="like-icon icon icon-tabler icon-tabler-heart {{'liked' if g.user.username in post.liked_by else ''}}"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              stroke-width="0.8"
+              stroke="#000000"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              data-oid="{{post.__oid__.num}}"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M19.5 13.572l-7.5 7.428l-7.5 -7.428m0 0a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"
+              />
+            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="comment-icon icon icon-tabler icon-tabler-message-circle"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              stroke-width="0.8"
+              stroke="#000000"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M3 20l1.3 -3.9a9 8 0 1 1 3.4 2.9l-4.7 1" />
+            </svg>
+          </div>
+          <div class="post-info__management__likedby">
+            Le ha gustado a {%for user in post.liked_by%} {{user}}, {%endfor%}
+          </div>
+          <form
+            action="/add-comment?number={{post.__oid__.num}}"
+            method="POST"
+            class="post-info__management__cform"
+          >
+            <textarea
+              name="comentario"
+              placeholder="Añade un comentario..."
+            ></textarea>
+            <input class="submit-comment-btn" type="submit" value="Postear" />
+          </form>
+        </div>
+      </div>
+
+      <div></div>
+    </div>
+  </div>
+</div>
+{%endfor%} {%elif posts%} {%for post in posts%}
+<div class="post-modal-div post-modal--bg no-display">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="close-modal icon icon-tabler icon-tabler-x"
+    width="52"
+    height="52"
+    viewBox="0 0 24 24"
+    stroke-width="1.5"
+    stroke="#ffffff"
+    fill="none"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    data-index="{{loop.index0}}"
+  >
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <line x1="18" y1="6" x2="6" y2="18" />
+    <line x1="6" y1="6" x2="18" y2="18" />
+  </svg>
+  <div class="post-modal">
+    <div class="post-modal--body">
+      <div class="post-image-area">
+        <img
+          src="{{url_for('static', filename='imagenes/' + post.imagen)}}"
+          alt=""
+        />
+      </div>
+
+      <div class="post-info">
+        <div class="post-info__header">
+          <img
+            src="{{url_for('static', filename='/fotos_perfil/'+ post.usuario + '_prof.jpg')}}"
+            alt=""
+          />
+          <p>{{post.usuario}}</p>
+        </div>
+        <div class="post-info__comments">
+          {%if post.caption%}
+          <div class="caption-container">
+            <img
+              src="{{url_for('static', filename='/fotos_perfil/'+ post.usuario + '_prof.jpg')}}"
+              alt=""
+            />
+            <p class="caption-username">{{post.usuario}}</p>
+            <p>{{post.caption}}</p>
+          </div>
+          {%endif%}
+
+          <div class="comments">
+            {% for comentario in post.comentarios %}
+            <div class="comment">
+              <img
+                src="{{url_for('static', filename='/fotos_perfil/'+ comentario.usuario +
+                '_prof.jpg')}}"
+                alt=""
+              />
+              <p class="comment-username">{{comentario.usuario}}</p>
+              <p>{{comentario.texto}}</p>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="post-info__management">
+          <div class="post-info__management__likes">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="like-icon icon icon-tabler icon-tabler-heart {{'liked' if g.user.username in post.liked_by else ''}}"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              stroke-width="0.8"
+              stroke="#000000"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              data-oid="{{post.__oid__.num}}"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M19.5 13.572l-7.5 7.428l-7.5 -7.428m0 0a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"
+              />
+            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="comment-icon icon icon-tabler icon-tabler-message-circle"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              stroke-width="0.8"
+              stroke="#000000"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M3 20l1.3 -3.9a9 8 0 1 1 3.4 2.9l-4.7 1" />
+            </svg>
+          </div>
+          <div class="post-info__management__likedby">
+            Le ha gustado a {%for user in post.liked_by%} {{user}}, {%endfor%}
+          </div>
+          <form
+            action="/add-comment?number={{post.__oid__.num}}"
+            method="POST"
+            class="post-info__management__cform"
+          >
+            <textarea
+              name="comentario"
+              placeholder="Añade un comentario..."
+            ></textarea>
+            <input class="submit-comment-btn" type="submit" value="Postear" />
+          </form>
+        </div>
+      </div>
+
+      <div></div>
+    </div>
+  </div>
+</div>
+{%endfor%} {%endif%}
+<!-- fin de bloque -->
+{% endblock %}

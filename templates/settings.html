@@ -1,0 +1,128 @@
+{% extends "base.html"%}
+<!-- HTML head -->
+{% block head%} {{ super() }}{% endblock %}
+
+<!-- navegacion -->
+{% include "navigation.html"%} {% block nav%} {{ super() }}{% endblock%}
+
+<!-- contenido principal -->
+{% block content%}
+<div class="settings">
+  <!-- settings navigation -->
+  <div class="settings__nav">
+    <a class="{{ 'active' if edit_profile else ''}}" href="/settings"
+      >Editar perfil</a
+    >
+    <a
+      class="{{ 'active' if edit_password else ''}}"
+      href="/settings/change/password"
+      >Cambiar contraseña</a
+    >
+    <a href="/logout">Cerrar sesión</a>
+  </div>
+
+  <div class="settings__form-container">
+    <div class="user-small-info">
+      <img src="{{url_for('static', filename='/fotos_perfil/'+ g.user.imagen_perfil) if g.user else ''}}" alt="" />
+      <div class="user-small-info__text">
+        <p>{{g.user.username}}</p>
+        {% if edit_profile %}
+        <a href="" class="open-change-pic">Cambiar foto de perfil</a>
+        {% endif %}
+      </div>
+    </div>
+
+  <!-- form -->
+    {% if edit_profile %}
+    <form class="edit-profile-form" action="/edit-profile" method="POST">
+    {%endif%}
+    
+    {% if edit_password%}
+      <form class="edit-password-form" action="/edit-password" method="POST">
+    {% endif%}
+      <!-- editing profile -->
+      {% if edit_profile %}
+      <div class="edit-profile-form__field">
+        <label class="edit-profile-form__field__label" for="">Alias</label>
+        <input
+          name="alias"
+          class="edit-profile-form__field__input edit-alias"
+          type="text"
+          value="{{g.user.alias}}"
+        />
+      </div>
+      <div class="edit-profile-form__field">
+        <label class="edit-profile-form__field__label" for="">Nombre de usuario</label>
+        <input
+          name="username"
+          class="edit-profile-form__field__input edit-username"
+          type="text"
+          value="{{g.user.username}}"
+        />
+      </div>
+      <div class="edit-profile-form__field">
+        <label class="edit-profile-form__field__label" for="">Biografía</label>
+        <textarea class="edit-bio" name="bio" id="">{{g.user.bio}}</textarea>
+      </div>
+
+      <input class="boton-blue submit-btn" type="submit" value="Guardar cambios" />
+      {% endif %}
+
+      <!-- editing password -->
+      {% if edit_password %}
+      <div class="edit-profile-form__field">
+        <label
+          class="edit-profile-form__field__label edit-profile-form__field__label--password"
+          for=""
+          >Contraseña anterior</label
+        >
+        <input
+        name="opassword"
+          class="edit-profile-form__field__input edit-profile-form__field__input--password edit-opassword"
+          type="password"
+        />
+      </div>
+      <div class="edit-profile-form__field">
+        <label
+          class="edit-profile-form__field__label edit-profile-form__field__label--password"
+          for=""
+          >Contraseña nueva</label
+        >
+        <input
+        name="npassword"
+          class="edit-profile-form__field__input edit-profile-form__field__input--password edit-npassword"
+          type="password"
+        />
+      </div>
+      <div class="edit-profile-form__field">
+        <label
+          class="edit-profile-form__field__label edit-profile-form__field__label--password"
+          for=""
+          >Confirma contraseña nueva</label
+        >
+        <input
+        name="rnpassword"
+          class="edit-profile-form__field__input edit-profile-form__field__input--password edit-rnpassword"
+          type="password"
+        />
+      </div>
+
+      <input
+        class="boton-blue submit-btn"
+        type="submit"
+        value="Cambiar contraseña"
+      />
+      {% endif %}
+    </form>
+
+    <!-- validations zone -->
+    {% with messages = get_flashed_messages() %} {% if messages %} {% for
+    message in messages %}
+    <p class="error-msg">{{ message }}</p>
+    {% endfor %} {% endif %} {% endwith %}
+  </div>
+</div>
+<!-- fin contenido -->
+{%endblock%}
+
+{%include "changepic_modal.html"%}{%block change_pic%}{{super()}}{%endblock%}

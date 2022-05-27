@@ -1,0 +1,46 @@
+{%block follows%}
+
+<div class="follows-modal no-display followers">
+  <div class="follows-modal__body">
+    <div class="follows-modal-heading">Seguidores</div>
+    <div class="follows-modal__list">
+      {%for seguidor in seguidores%}
+      <div class="follower">
+        <img src="{{url_for('static', filename="/fotos_perfil/" +
+        seguidor.username + "_prof.jpg")}}" alt="">
+        <div class="follower__text">
+          <a
+            href="/profile/{{seguidor.username}}"
+            class="follower__text__username"
+            >{{seguidor.username}}</a
+          >
+          <p class="follower__text__alias">{{seguidor.alias}}</p>
+        </div>
+      </div>
+      {%endfor%}
+    </div>
+  </div>
+</div>
+
+<div class="follows-modal no-display following">
+  <div class="follows-modal__body">
+    <div class="follows-modal-heading">Seguidos</div>
+    <div class="follows-modal__list">
+      {%for seguido in seguidos%}
+      <div class="follower">
+        <img src="{{url_for('static', filename="/fotos_perfil/" +
+        seguido.username + "_prof.jpg")}}" alt="">
+        <div class="follower__text">
+          <a
+            href="/profile/{{seguido.username}}"
+            class="follower__text__username"
+            >{{seguido.username}}</a
+          >
+          <p class="follower__text__alias">{{seguido.alias}}</p>
+        </div>
+      </div>
+      {%endfor%}
+    </div>
+  </div>
+</div>
+{%endblock%}

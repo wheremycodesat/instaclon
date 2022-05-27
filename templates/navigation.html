@@ -1,0 +1,140 @@
+{% block nav%}
+<nav class="navbar">
+  <div class="nav-content">
+    <div class="logo">
+      <img src="{{url_for('static', filename="logo/clonlogo.png")}}"
+      alt="Instaclon">
+    </div>
+
+    <div class="search-container">
+      <input class="search" type="text" placeholder="Buscar" />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="close-search icon icon-tabler icon-tabler-x no-display"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        stroke-width="3"
+        stroke="#000000"
+        fill="none"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
+      <div class="search-dropdown no-display">
+        <ul class="search-dropdown-list"></ul>
+      </div>
+    </div>
+
+    {%if g.user%}
+    <div class="icons">
+      <!-- home  -->
+
+      <a href="/home">
+        <svg
+          version="1.0"
+          class="icon icon-tabler icon-tabler-home show-tablet"
+          xmlns="http://www.w3.org/2000/svg"
+          width="28"
+          height="28"
+          viewBox="0 0 32 32"
+          preserveAspectRatio="xMidYMid meet"
+        >
+          <g
+            transform="translate(0.000000,32.000000) scale(0.100000,-0.100000)"
+            fill="#000000"
+            stroke="none"
+          >
+            <path
+              d="M75 257 l-70 -52 0 -100 0 -100 60 0 60 0 3 42 c6 80 58 80 64 0 l3 -42 60 0 60 0 0 100 0 99 -69 53 c-37 29 -75 53 -85 53 -9 0 -47 -24 -86 -53z m155 -19 l59 -43 1 -82 0 -83 -40 0 c-40 0 -40 0 -40 38 0 45 -14 62 -50 62 -36 0 -50 -17 -50 -62 0 -38 0 -38 -40 -38 l-40 0 0 83 1 82 57 42 c31 23 63 42 69 42 7 1 40 -18 73 -41z"
+            />
+          </g>
+        </svg>
+      </a>
+
+      <!-- add post -->
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="add-post icon icon-tabler icon-tabler-square-plus"
+        width="30"
+        height="30"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="#000000"
+        fill="none"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <rect x="4" y="4" width="16" height="16" rx="2" />
+        <line x1="9" y1="12" x2="15" y2="12" />
+        <line x1="12" y1="9" x2="12" y2="15" />
+      </svg>
+
+      <!-- profile -->
+      <div class="profile-icon">
+        <a class="profile-icon--btn">
+          <img
+            src="{{url_for('static', filename='/fotos_perfil/'+ g.user.imagen_perfil) if g.user else ''}}"
+            alt="imagen perfil"
+          />
+        </a>
+        <div class="dropdown-content no-display">
+          <a href="/profile?posts_tab=1">
+            <span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon icon-tabler icon-tabler-user"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="#000000"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <circle cx="12" cy="7" r="4" />
+                <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+              </svg>
+            </span>
+            Perfil
+          </a>
+          <a href="/settings">
+            <span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon icon-tabler icon-tabler-settings"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="#000000"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path
+                  d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"
+                />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </span>
+            Ajustes
+          </a>
+          <a href="/logout">Cerrar sesión</a>
+        </div>
+        <!-- dropdown content -->
+      </div>
+      <!-- profile icon -->
+    </div>
+    <!-- icons -->
+    {%endif%}
+  </div>
+</nav>
+{% endblock %}

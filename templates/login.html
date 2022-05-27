@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+<!-- HTML head -->
+{% block head %}{{ super() }} {% endblock %}
+<!-- contenido -->
+{% block content %}
+<div class="login">
+  <!-- <div class="cellphones"> -->
+  <img class="cellphones" src="{{url_for('static',
+  filename="/logo/phones.png")}}" alt="" srcset="" />
+  <!-- </div> -->
+
+  <div class="login-container__functions">
+    <div class="login-container__form">
+      <div class="logo">
+        <img src="{{url_for('static', filename="logo/clonlogo.png")}}"
+        alt="Instaclon">
+      </div>
+
+      <form action="" method="POST" enctype="multipart/form-data">
+        <input
+          id="username"
+          name="username"
+          class="login-username"
+          type="text"
+          value="{{ request.form['username'] if request.form['username'] else ''
+        }}"
+          placeholder="Nombre de usuario"
+        />
+        <input
+          id="password"
+          name="password"
+          class="login-password"
+          type="password"
+          placeholder="Contraseña"
+        />
+        <input
+          class="boton-blue submit-btn"
+          type="submit"
+          value="Iniciar sesión"
+        />
+      </form>
+      <!-- validations zone -->
+      {% with messages = get_flashed_messages() %} {% if messages %} {% for
+      message in messages %}
+      <!--  -->
+      {%if 'correctamente' in message%}
+      <p class="success-msg">{{ message }}</p>
+      {%else%}
+      <p class="error-msg">{{ message }}</p>
+
+      {%endif%} {% endfor %} {% endif %} {% endwith %}
+    </div>
+    <div class="login-container__signup">
+      <p>¿No tienes una cuenta?<a href="/signup"> Registrate</a></p>
+    </div>
+
+    <div class="app-stores">
+      <p>Obten la app</p>
+
+      <div class="app-stores__buttons">
+        <img
+          src="https://www.instagram.com/static/images/appstore-install-badges/badge_ios_english-en.png/180ae7a0bcf7.png"
+          alt="apple app store"
+        />
+
+        <img
+          src="https://www.instagram.com/static/images/appstore-install-badges/badge_android_english-en.png/e9cd846dc748.png"
+          alt="google play"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock%}

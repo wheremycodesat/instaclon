@@ -1,0 +1,79 @@
+{% block addpost %}
+<div class="no-display add-post-modal-div">
+  <div class="add-post-modal">
+    <div class="add-post-modal--header">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="arrow-left no-display icon icon-tabler icon-tabler-arrow-left"
+        width="32"
+        height="32"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="#000000"
+        fill="none"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <line x1="5" y1="12" x2="19" y2="12" />
+        <line x1="5" y1="12" x2="11" y2="18" />
+        <line x1="5" y1="12" x2="11" y2="6" />
+      </svg>
+      <p>Publica una foto</p>
+      <p class="next-post-step no-display">Siguiente</p>
+    </div>
+
+    <div class="add-post-modal--body">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="icon icon-tabler icon-tabler-photo"
+        width="100"
+        height="100"
+        viewBox="0 0 24 24"
+        stroke-width="1"
+        stroke="#000000"
+        fill="none"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <line x1="15" y1="8" x2="15.01" y2="8" />
+        <rect x="4" y="4" width="16" height="16" rx="3" />
+        <path d="M4 15l4 -4a3 5 0 0 1 3 0l5 5" />
+        <path d="M14 14l1 -1a3 5 0 0 1 3 0l2 2" />
+      </svg>
+
+      <p>Selecciona una foto para publicar</p>
+
+      <img src="#" alt="" class="img-post no-display" />
+
+      <form
+        action="/add-post"
+        class="upload-new-post-form"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        <input type="file" name="file" class="file-selector" hidden />
+        <button class="boton-blue upload-post-btn">
+          Seleccionar del ordenador
+        </button>
+      </form>
+
+      <div class="upload-new-post-info">
+        <div class="post-info__header--uploading">
+          <img
+            src="{{url_for('static', filename='/fotos_perfil/'+ g.user.imagen_perfil) if g.user else ''}} "
+            alt=""
+          />
+          <p>{{g.user.username}}</p>
+        </div>
+        <textarea
+          class="nice-textarea"
+          name="caption"
+          placeholder="Añade un pie de foto..."
+        ></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% block timeline%}
+<div class="photos">
+  {%if posts%} {%for post in posts%}
+  <div class="photo">
+    <div class="photo__heading">
+      <img src="{{url_for('static', filename="/fotos_perfil/" + post.usuario +
+      "_prof.jpg")}}" alt="imagen usuario" loading="lazy"/>
+      <a
+        href="{{'/profile' if post.usuario == g.user.username else '/profile/' + post.usuario}}"
+        >{{post.usuario}}</a
+      >
+    </div>
+    <img src="{{url_for('static', filename="/imagenes/" + post.imagen )}}"
+    alt="imagen principal" loading="lazy"/>
+    <div class="post-info__management">
+      <div class="post-info__management__likes">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="like-icon icon icon-tabler icon-tabler-heart {{'liked' if g.user.username in post.liked_by else ''}}"
+          width="32"
+          height="32"
+          viewBox="0 0 24 24"
+          stroke-width="0.8"
+          stroke="#000000"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          data-oid="{{post.__oid__.num}}"
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path
+            d="M19.5 13.572l-7.5 7.428l-7.5 -7.428m0 0a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"
+          />
+        </svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="comment-icon icon icon-tabler icon-tabler-message-circle"
+          width="32"
+          height="32"
+          viewBox="0 0 24 24"
+          stroke-width="0.8"
+          stroke="#000000"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          data-oid="{{post.__oid__.num}}"
+          data-user="{{post.usuario}}"
+          data-index="{{loop.index0}}"
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M3 20l1.3 -3.9a9 8 0 1 1 3.4 2.9l-4.7 1" />
+        </svg>
+      </div>
+      <div class="post-info__management__likedby">{{post.likes}} likes</div>
+      {%if post.caption%}
+      <div class="caption-container--timeline">
+        <p class="caption-username--timeline">{{g.user.username}}</p>
+        <p>{{post.caption}}</p>
+      </div>
+      {%endif%}
+      <!-- end caption -->
+      {%if post.num_comentarios > 0%}
+      <p class="view-comments" data-index="{{loop.index0}}">
+        Ver {{post.num_comentarios}} comentarios
+      </p>
+      {%endif%}
+      <form
+        action="/add-comment?number={{post.__oid__.num}}"
+        method="POST"
+        class="post-info__management__cform"
+      >
+        <textarea
+          name="comentario"
+          placeholder="Añade un comentario..."
+        ></textarea>
+        <input class="submit-comment-btn" type="submit" value="Postear" />
+      </form>
+    </div>
+    <!-- management -->
+  </div>
+  <!-- photo -->
+  {%endfor%} {%else%}
+  <h3>
+    Empieza a seguir a otros usuarios o publica una foto para ver los posts aquí
+  </h3>
+  {%endif%}
+</div>
+<!-- post modal -->
+{% include "post_modal.html"%} {% block postmodal %} {%endblock%}
+<!-- fin de contenido -->
+{% endblock %}
